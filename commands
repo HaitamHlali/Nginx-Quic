@@ -1,0 +1,22 @@
+On a Linux 20.04 LTS server
+
+apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get -y install git mercurial build-essential cmake ninja-build golang-go zlib1g-dev libpcre3-dev
+
+git clone https://github.com/google/boringssl \
+ && cd boringssl \
+ && mkdir build \
+ && cd build \
+ && cmake -GNinja .. \
+ && ninja
+
+hg clone https://hg.nginx.org/nginx-quic \
+ && cd nginx-quic \
+ && hg update quic \
+ && ./auto/configure \
+      --with-debug \
+      --with-http_v3_module \
+      --with-cc-opt="-I../boringssl/include"   \
+      --with-ld-opt="-L../boringssl/build/ssl  \
+                     -L../boringssl/build/crypto" \
+ && make
