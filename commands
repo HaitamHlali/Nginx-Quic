@@ -10,6 +10,10 @@ git clone https://github.com/google/boringssl \
  && cmake -GNinja .. \
  && ninja
 
+
+if it doesn't work with ninja try this : 
+cmake .. & make
+
 hg clone https://hg.nginx.org/nginx-quic \
  && cd nginx-quic \
  && hg update quic \
